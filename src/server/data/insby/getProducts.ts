@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { InsbyApiUrl } from './constants';
 
-const ProductSchema = z
+const productDtoTransformSchema = z
     .object({
         id: z.number(),
         image_url: z.string().url(),
@@ -33,7 +33,7 @@ export async function getProducts(data: { token: string }) {
 
     const object = await response.json();
     const products = z
-        .object({ data: z.array(ProductSchema) })
+        .object({ data: z.array(productDtoTransformSchema) })
         .transform(({ data }) => data)
         .parse(object);
 

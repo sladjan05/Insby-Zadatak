@@ -7,6 +7,7 @@ import { useToast } from '@/providers/ToastProvider';
 import { trpc } from '@/trpc/client';
 import { ElementProps } from '@/types/utils';
 import { cn } from '@/utils/cn';
+import { TRPCClientError } from '@trpc/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
@@ -23,11 +24,26 @@ export default function SignUpForm({ className, ...props }: SignUpFormProps) {
                 showToast('Account has been created.');
                 router.replace('/sign-in');
             } else {
-                showToast('Account already exists!');
+                showToast('Account already exists...');
             }
         },
         onError(error) {
-            showToast('An error occurred!');
+            if (error instanceof TRPCClientError) {
+                const message = error.message;
+                const object = JSON.parse(message);
+
+                // Check if Zod failed to validate inputs.
+                // If Zod validation failed, they will be returned in an array.
+                if (Array.isArray(object)) {
+                    const firstElement = object[0];
+
+                    if ('message' in firstElement) {
+                        showToast(firstElement.message);
+                    }
+                }
+            } else {
+                showToast('Unknown error occurred...');
+            }
         }
     });
 
@@ -36,16 +52,6 @@ export default function SignUpForm({ className, ...props }: SignUpFormProps) {
     const confirmedPassword = useRef('');
 
     function handleSignUp() {
-        if (!email.current) {
-            showToast('Email cannot be empty!');
-            return;
-        }
-
-        if (!password.current) {
-            showToast('Password cannot be empty!');
-            return;
-        }
-
         if (password.current !== confirmedPassword.current) {
             showToast('Passwords must match!');
             return;

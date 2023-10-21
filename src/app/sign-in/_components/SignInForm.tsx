@@ -8,6 +8,7 @@ import { trpc } from '@/trpc/client';
 import { ElementProps } from '@/types/utils';
 import { cn } from '@/utils/cn';
 import { clientCookies } from '@/utils/cookies';
+import { TRPCClientError } from '@trpc/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
@@ -22,17 +23,31 @@ export default function SignInForm({ className, ...props }: SignInFormProps) {
         onSuccess(data) {
             if (data) {
                 clientCookies.set('Session', data);
-                showToast("You've been signed in.");
+                showToast("You've been signed in!");
 
                 router.replace('/');
                 router.refresh();
             } else {
-                showToast('Wrong credentials!');
+                showToast('Wrong credentials...');
             }
         },
         onError(error) {
-            console.log(error);
-            showToast('Wrong credentials!');
+            if (error instanceof TRPCClientError) {
+                const message = error.message;
+                const object = JSON.parse(message);
+
+                // Check if Zod failed to validate inputs.
+                // If Zod validation failed, they will be returned in an array.
+                if (Array.isArray(object)) {
+                    const firstElement = object[0];
+
+                    if ('message' in firstElement) {
+                        showToast(firstElement.message);
+                    }
+                }
+            } else {
+                showToast('Unknown error occurred...');
+            }
         }
     });
 
@@ -40,16 +55,6 @@ export default function SignInForm({ className, ...props }: SignInFormProps) {
     const password = useRef('');
 
     function handleSignIn() {
-        if (!email.current) {
-            showToast('Email cannot be empty!');
-            return;
-        }
-
-        if (!password.current) {
-            showToast('Password cannot be empty!');
-            return;
-        }
-
         showToast('Signing in...');
 
         signIn({
