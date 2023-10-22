@@ -16,7 +16,7 @@ export default function Navbar({ className, session, ...props }: NavbarProps) {
             )}
             {...props}
         >
-            <Link href='/sign-up'>
+            <Link href='/sign-in'>
                 {session && (
                     <span className='flex h-10 w-10 items-center justify-center rounded-full border-2 px-4 py-2 text-2xl text-red-600'>
                         {session.email[0].toUpperCase()}
@@ -24,7 +24,7 @@ export default function Navbar({ className, session, ...props }: NavbarProps) {
                 )}
                 {!session && (
                     <span className='block rounded-full px-4 py-2 transition hover:scale-[102%] hover:border hover:shadow-lg'>
-                        Sign Up
+                        Log in
                     </span>
                 )}
             </Link>
