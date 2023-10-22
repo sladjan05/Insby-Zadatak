@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 } from 'uuid';
 import { InsbyApi } from './server/data/insby/api';
+import { PERMANENT_COOKIE_TIME } from './utils/cookies';
 
 export async function middleware(request: NextRequest) {
     const uuidCookie = request.cookies.get('UUID');
@@ -16,7 +17,10 @@ export async function middleware(request: NextRequest) {
         const ONE_HOUR = 1000 * 60 * 60;
         const response = NextResponse.redirect(request.url);
 
-        response.cookies.set('UUID', uuid);
+        response.cookies.set('UUID', uuid, {
+            expires: PERMANENT_COOKIE_TIME
+        });
+
         response.cookies.set('InsbyToken', insbyToken, {
             expires: Date.now() + ONE_HOUR
         });

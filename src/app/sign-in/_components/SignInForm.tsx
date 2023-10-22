@@ -7,7 +7,7 @@ import { useToast } from '@/providers/ToastProvider';
 import { trpc } from '@/trpc/client';
 import { ElementProps } from '@/types/utils';
 import { cn } from '@/utils/cn';
-import { clientCookies } from '@/utils/cookies';
+import { PERMANENT_COOKIE_TIME, clientCookies } from '@/utils/cookies';
 import { TRPCClientError } from '@trpc/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -22,7 +22,9 @@ export default function SignInForm({ className, ...props }: SignInFormProps) {
     const { isLoading, mutate: signIn } = trpc.auth.signIn.useMutation({
         onSuccess(data) {
             if (data) {
-                clientCookies.set('Session', data);
+                clientCookies.set('Session', data, {
+                    expires: PERMANENT_COOKIE_TIME
+                });
                 showToast("You've been signed in!");
 
                 router.replace('/');

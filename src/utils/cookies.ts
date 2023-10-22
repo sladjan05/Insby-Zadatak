@@ -1,3 +1,5 @@
+export const PERMANENT_COOKIE_TIME = 1000 * (2 ** 31 - 1);
+
 /**
  * Used for accessing cookies client-side.
  */
@@ -5,8 +7,14 @@ export const clientCookies = {
     get(key: string) {
         return getCookiesFromHeader(document.cookie).get(key);
     },
-    set(key: string, value: any) {
-        document.cookie = `${key}=${JSON.stringify(value)}`;
+    set(key: string, value: any, options: { expires?: number }) {
+        let cookie = `${key}=${JSON.stringify(value)}`;
+
+        if (options.expires !== undefined) {
+            cookie += `;expires=${new Date(options.expires).toUTCString()}`;
+        }
+
+        document.cookie = cookie;
     }
 };
 
