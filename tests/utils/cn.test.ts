@@ -4,6 +4,9 @@ import { describe, expect, test } from '@jest/globals';
 describe('cn', () => {
     test('Class concatenation', () => {
         expect(cn('class-1', 'class-2')).toBe('class-1 class-2');
+        expect(cn('class-1 class-2', 'class-3')).toBe(
+            'class-1 class-2 class-3'
+        );
     });
 
     test('Conflicting Tailwind classes', () => {

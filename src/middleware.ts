@@ -13,10 +13,13 @@ export async function middleware(request: NextRequest) {
     // If a change occurred, write it to cookies and redirect again
     // to the same URL, so the Set-Cookie header takes effect.
     if (!insbyTokenCookie) {
+        const ONE_HOUR = 1000 * 60 * 60;
         const response = NextResponse.redirect(request.url);
 
         response.cookies.set('UUID', uuid);
-        response.cookies.set('InsbyToken', insbyToken);
+        response.cookies.set('InsbyToken', insbyToken, {
+            expires: Date.now() + ONE_HOUR
+        });
 
         return response;
     }

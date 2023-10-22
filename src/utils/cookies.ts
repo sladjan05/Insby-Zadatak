@@ -2,11 +2,11 @@
  * Used for accessing cookies client-side.
  */
 export const clientCookies = {
-    set(key: string, value: any) {
-        document.cookie = `${key}=${JSON.stringify(value)}`;
-    },
     get(key: string) {
         return getCookiesFromHeader(document.cookie).get(key);
+    },
+    set(key: string, value: any) {
+        document.cookie = `${key}=${JSON.stringify(value)}`;
     }
 };
 
