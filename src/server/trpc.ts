@@ -13,11 +13,8 @@ export function createContext({ req }: FetchCreateContextFnOptions) {
     const session = cookies.get('Session');
 
     return {
-        insbyToken: insbyToken,
-        session: session ? JSON.parse(session) : undefined
-    } as {
-        insbyToken: string;
-        session: Session | undefined;
+        insbyToken: insbyToken!,
+        session: session ? (JSON.parse(session) as Session) : undefined
     };
 }
 

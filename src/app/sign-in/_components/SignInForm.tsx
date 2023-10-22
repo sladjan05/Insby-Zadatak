@@ -56,7 +56,6 @@ export default function SignInForm({ className, ...props }: SignInFormProps) {
 
     function handleSignIn() {
         showToast('Signing in...');
-
         signIn({
             email: email.current,
             password: password.current

@@ -58,7 +58,6 @@ export default function SignUpForm({ className, ...props }: SignUpFormProps) {
         }
 
         showToast('Signing up...');
-
         signUp({
             email: email.current,
             password: password.current

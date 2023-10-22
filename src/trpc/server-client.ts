@@ -9,9 +9,8 @@ export function createServerTRPC() {
     const insbyToken = insbyTokenCookie?.value;
 
     const sessionCookie = cookieStore.get('Session');
-    const session = sessionCookie
-        ? (JSON.parse(sessionCookie?.value!) as Session)
-        : undefined;
+    const session =
+        sessionCookie && (JSON.parse(sessionCookie.value) as Session);
 
     return mainRouter.createCaller({
         insbyToken: insbyToken!,

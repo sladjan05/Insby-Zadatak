@@ -6,9 +6,7 @@ export async function getProducts(data: {
     sessionId: string | undefined;
 }) {
     const productsPromise = InsbyApi.getProducts({ token: data.insbyToken });
-    const sessionPromise = data.sessionId
-        ? getSession(data.sessionId)
-        : undefined;
+    const sessionPromise = data.sessionId && getSession(data.sessionId);
 
     const products = await productsPromise;
     const session = await sessionPromise;
