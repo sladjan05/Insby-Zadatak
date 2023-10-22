@@ -24,10 +24,10 @@
     -   **trpc** - sadrži klijentskog i serverskog tRPC klijenta
     -   **types** - svi [...].d.ts fajlovi
     -   **utils** - pomoćni alati
-    -   **tests** - testovi
     -   **middleware.ts** - Next.js middleware
 -   **prisma**
     -   **schema.prisma** - šema baze podataka
+-   **tests** - testovi
 
 ## Kako pokrenuti server?
 
