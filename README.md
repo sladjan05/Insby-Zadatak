@@ -43,8 +43,8 @@ DATABASE_URL="postgresql://..."
 ### U komandnoj liniji sa ishodištem u folderu projekta pokrenuti:
 
 ```
-    bun install
-    bun prisma db push
-    bun prisma generate
-    bun dev
+bun install
+bun prisma db push
+bun prisma generate
+bun dev
 ```

@@ -7,6 +7,7 @@ import { useToast } from '@/providers/ToastProvider';
 import { trpc } from '@/trpc/client';
 import { ElementProps } from '@/types/utils';
 import { cn } from '@/utils/cn';
+import { EnvelopeIcon } from '@heroicons/react/20/solid';
 import { TRPCClientError } from '@trpc/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -79,6 +80,7 @@ export default function SignUpForm({ className, ...props }: SignUpFormProps) {
                 <Labeled className='w-full max-w-lg' label='Email'>
                     <TextBox
                         placeholder='Enter your email address'
+                        trailingIcon={<EnvelopeIcon />}
                         type='email'
                         disabled={isLoading}
                         onValueChange={(value) => (email.current = value)}
